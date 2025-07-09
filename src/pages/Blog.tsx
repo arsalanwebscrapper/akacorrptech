@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
@@ -10,6 +11,7 @@ import { motion } from 'framer-motion';
 import { useBlogData, useRealtimeBlogData, BlogPost } from '@/hooks/useBlogData';
 
 const Blog = () => {
+  const navigate = useNavigate();
   const { posts, isLoading, error } = useBlogData();
   useRealtimeBlogData(); // Enable real-time updates
 
@@ -85,7 +87,7 @@ const Blog = () => {
 
   const renderBlogCard = (post: BlogPost, isFeatured = false) => (
     <motion.div key={post.id} variants={itemVariants}>
-      <Card className="card-hover h-full">
+      <Card className="card-hover h-full cursor-pointer transition-all duration-300 hover:shadow-lg" onClick={() => navigate(`/blog/${post.id}`)}>
         <div className="relative overflow-hidden rounded-t-lg">
           <img
             src={post.image_url || "/api/placeholder/600/400"}
@@ -111,7 +113,7 @@ const Blog = () => {
             </div>
           </div>
           
-          <CardTitle className="font-montserrat text-xl mb-2 line-clamp-2">
+          <CardTitle className="font-montserrat text-xl mb-2 line-clamp-2 hover:text-accent transition-colors">
             {post.title}
           </CardTitle>
           
@@ -135,7 +137,15 @@ const Blog = () => {
               <span className="text-sm text-muted-foreground">{post.author}</span>
             </div>
             
-            <Button variant="ghost" size="sm" className="text-accent hover:text-accent-light group/btn">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="text-accent hover:text-accent-light group/btn"
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate(`/blog/${post.id}`);
+              }}
+            >
               Read More
               <FaArrowRight className="ml-2 w-3 h-3 transition-transform group-hover/btn:translate-x-1" />
             </Button>
