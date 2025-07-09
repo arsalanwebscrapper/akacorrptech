@@ -182,7 +182,7 @@ const ContactManager = () => {
                           <div className="flex items-center space-x-2">
                             <span className="font-semibold text-sm">{message.name}</span>
                             {message.status === 'unread' && (
-                              <Badge variant="secondary" size="sm">New</Badge>
+                              <Badge variant="secondary">New</Badge>
                             )}
                           </div>
                           <span className="text-xs text-muted-foreground">
